@@ -1,1 +1,3 @@
 PyGEon/
+.vscode/
+src/__pycache__/
