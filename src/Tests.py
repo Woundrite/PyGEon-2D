@@ -1,64 +1,58 @@
-import pygame
-from pygame.locals import *
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
 
-from OpenGL.GL import *
-from OpenGL.GLU import *
+import pyglet
+from pyglet import gl
 
-verticies = (
-    (1, -1, -1),
-    (1, 1, -1),
-    (-1, 1, -1),
-    (-1, -1, -1),
-    (1, -1, 1),
-    (1, 1, 1),
-    (-1, -1, 1),
-    (-1, 1, 1)
-    )
-
-edges = (
-    (0,1),
-    (0,3),
-    (0,4),
-    (2,1),
-    (2,3),
-    (2,7),
-    (6,3),
-    (6,4),
-    (6,7),
-    (5,1),
-    (5,4),
-    (5,7)
-    )
-
-
-def Cube():
-    glBegin(GL_LINES)
-    for edge in edges:
-        for vertex in edge:
-            glVertex3fv(verticies[vertex])
-    glEnd()
-
+import imgui
+# Note that we could explicitly choose to use PygletFixedPipelineRenderer
+# or PygletProgrammablePipelineRenderer, but create_renderer handles the
+# version checking for us.
+from imgui.integrations.pyglet import create_renderer
 
 def main():
-    pygame.init()
-    display = (800,600)
-    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
-    gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+    window = pyglet.window.Window(width=1280, height=720, resizable=True)
+    gl.glClearColor(1, 1, 1, 1)
+    imgui.create_context()
+    impl = create_renderer(window)
 
-    glTranslatef(0.0,0.0, -5)
+    def update(dt):
+        imgui.new_frame()
+        if imgui.begin_main_menu_bar():
+            if imgui.begin_menu("File", True):
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                clicked_quit, selected_quit = imgui.menu_item(
+                    "Quit", 'Cmd+Q', False, True
+                )
 
-        glRotatef(1, 3, 1, 1)
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        Cube()
-        pygame.display.flip()
-        pygame.time.wait(10)
+                if clicked_quit:
+                    quit()
+
+                imgui.end_menu()
+            imgui.end_main_menu_bar()
+
+        imgui.show_test_window()
+
+        imgui.begin("Custom window", True)
+        imgui.text("Bar")
+        imgui.text_colored("Eggs", 0.2, 1., 0.)
+        
+        imgui.text_ansi("B\033[31marA\033[mnsi ")
+        imgui.text_ansi_colored("Eg\033[31mgAn\033[msi ", 0.2, 1., 0.)
+
+        imgui.end()
+
+    def draw(dt):
+        update(dt)
+        window.clear()
+        imgui.render()
+        impl.render(imgui.get_draw_data())
+
+    pyglet.clock.schedule_interval(draw, 1/120.)
+    pyglet.app.run()
+    impl.shutdown()
 
 
-main()
+if __name__ == "__main__":
+    main()

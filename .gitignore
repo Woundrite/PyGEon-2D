@@ -1,3 +1,5 @@
 PyGEon/
 .vscode/
 src/__pycache__/
+imgui.ini
+IMGUITESTS.py
