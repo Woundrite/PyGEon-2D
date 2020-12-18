@@ -15,5 +15,6 @@ this is a 2D Game Engine Python
 6) In Game Shadows Real Time Shadows
 7) Physics Engine
 8) Inbuilt RayCasting Engine
-9) Inbuilt RayTracing
+9) Lighting Engine
+10) Basic inbuilt shapes
 ####		 And More to come as we progress
