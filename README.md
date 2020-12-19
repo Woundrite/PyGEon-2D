@@ -8,7 +8,7 @@ this is a 2D Game Engine Python
 1) Logging with custom formats
 
 
-### Functionality to be added
+### Major Functionality to be added
 1) GUI
 2) Scripts Support
 3) Visual Scripting
