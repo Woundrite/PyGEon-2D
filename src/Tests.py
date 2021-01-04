@@ -1,4 +1,6 @@
-def test(inte:"int") -> int:
-    return str(inte)
+def test():
+    print("foo bar")
 
-print(test("5.0"), type(test(5.0)))
+def t2(x):
+    print(x)
+t2(test)

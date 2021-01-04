@@ -191,7 +191,7 @@ class EventSystem():
         return "a"
     def OnWindowUnfocus(self):
         return "a"
-    def OnWindowClose(self):
-        return "a"
+    def SetWindowCloseCallback(self, func):
+        pass
     def OnWindowOpen(self):
         return "a"

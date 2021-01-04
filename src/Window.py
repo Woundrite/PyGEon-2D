@@ -1,8 +1,9 @@
 import glfw
 
 class Window():
-    def __init__(self):
+    def __init__(self, EventSystem):
         self.Window = None
+        self.Events = EventSystem
     def Create(self, **kwargs):
         self.WindowDisplayName = kwargs.get('title')
         self.DisplaySize = kwargs.get('size')
@@ -13,6 +14,7 @@ class Window():
             self.IsGLFW=True
         # Create a windowed mode window and its OpenGL context
         self.Window = glfw.create_window(self.DisplaySize[0], self.DisplaySize[1], self.WindowDisplayName, None, None)
+        glfw.set_window_close_callback(self.Window, self.Events.SubEvents.get("WindowEvent").WindowCloseEvent)
         if not self.Window:
             glfw.terminate()
             return

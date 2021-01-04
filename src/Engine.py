@@ -8,10 +8,9 @@ from Window import Window
 
 class Engine:
     def __init__(self, file = None):
+        self.EndLoopRunTime=5
         self.DisplaySize = None
         self.WindowDisplayName = None
-        self.events = None
-        self.fps = 100
         self.Events = EventSystem()
         self.MouseEventsObserver = MouseEventObserver()
         self.WindowEventsObserver = WindowEventObserver()
@@ -59,14 +58,14 @@ class Engine:
         else:
             self.IsGLFW=True
 
-        self.Window = Window()
+        self.Window = Window(self.Events)
 
 
     def Run(self, **kwargs):
         self.Window.Create(title=kwargs.get("title"), size=kwargs.get("size"))
         # Loop until the user closes the window
         self.ShouldWindowClose = self.Window.window_should_close()
-        while not self.ShouldWindowClose:
+        while (not self.ShouldWindowClose or self.EndLoopRunTime==0):
             self.Events.Reset()
             self.Events.CheckForEvents()
             #"""
@@ -75,9 +74,16 @@ class Engine:
             # Swap front and back buffers
             self.Window.swap_buffers()
 
+            if self.Events.IsWindowClosed():
+                print("Hii")
+
             # Poll for and process events
             self.Window.poll_events()
             self.ShouldWindowClose = self.Window.window_should_close()
+            if self.ShouldWindowClose == False:
+                if self.Events.IsWindowClosed():
+                    print("Hii")
+                self.EndLoopRunTime -= 1
             #"""
         self.Terminate()
 
@@ -97,22 +103,3 @@ class Engine:
         self.Logger.add(Color=kwargs.get("Color"), Format = kwargs.get("Format"), Level=kwargs.get("Level"))
 
 
-
-
-
-
-"""
-# Engine.EventSystem.ISMouseButtonDown("1") or Engine.EventSystem.MouseButtonDown("2")
-# Engine.EventSystem.KeyDown("A") or Engine.EventSystem.KeyDown("B) --> Return True if the provided key is down(only provides output as True only once before key is left)
-# Engine.EventSystem.GetKeyDown() --> Return the Currently Down Key
-# Engine.EventSystem.GetKeyUp()
-# Engine.EventSystem.GetKeyPressed()
-# Engine.EventSystem.IsKeyDown("Key")
-# Engine.EventSystem.IsKeyUp("Key")
-# Engine.EventSystem.IsKeyPressed("Key")
-# Engine.EventSystem.GetMouseButtonDown() --> Return the Currently Down MouseButton
-# Engine.EventSystem.OnWindowFocus()
-
-
-
-"""

@@ -45,7 +45,8 @@ class MouseEventObserver():
 
 class WindowEventObserver():
     def __init__(self):
-        pass
+        self.DidWindowClose = False
+        self.WindowCloseCallback=None
     def update(self, Message):
         if Message == None or Message == "None":
             pass
@@ -58,6 +59,8 @@ class WindowEventObserver():
         elif Message == "WindowResize":
             self.WindowResizeEvent()
 
+    def WindowResizeEvent(self):
+        pass
 
     def WindowFocusedEvent(self):
         pass
@@ -65,13 +68,14 @@ class WindowEventObserver():
     def WindowUnfocusedEvent(self):
         pass
     
-    def WindowCloseEvent(self):
+    def WindowCloseEvent(self, window):
         pass
-    
+
     def WindowResizeEvent(self):
         pass
+
     def Reset(self):
-        pass
+        self.DidWindowClose = False
 
 class KeyboardEventObserver():
     def __init__(self):

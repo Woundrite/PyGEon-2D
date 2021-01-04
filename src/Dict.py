@@ -15,7 +15,6 @@ class Dict():
         return len(self.keys)
 
     def __getitem__(self, i):
-        print(len(self.keys), i )
         return [self.keys[i], self.values[i]]
 
     def __setitem__(self, i, val):
