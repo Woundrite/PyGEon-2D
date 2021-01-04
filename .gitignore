@@ -3,3 +3,4 @@ PyGEon/
 src/__pycache__/
 imgui.ini
 IMGUITESTS.py
+diagrams/

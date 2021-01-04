@@ -108,7 +108,8 @@ class Logger():
     
 	def Log(self, typee, comment):
 		for key, value in self.FormatLevelColor:
-			if typee.lower() == key:
+			if typee.lower() == key.lower():
+				print("")
 				comment = self.FormatLevelColor.get(key)[1].replace("%C", comment)
 				for k,v in self.IDMeaning:
 					if k in comment:
@@ -128,3 +129,6 @@ class Logger():
 		self.level = kwargs.get("Level")
 
 		self.FormatLevelColor.append(self.level,[self.color, self.Format])
+	
+	def addID(self, id, value):
+		self.IDMeaning.append(id, value)

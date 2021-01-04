@@ -1,8 +1,4 @@
-from loguru import logger
-import sys
+def test(inte:"int") -> int:
+    return str(inte)
 
-logger.warning("That's it, beautiful and simple logging!")
-
-logger.add(sys.stdout, colorize=True, format="<green>{time}</green> <level>{message}</level>", filter="my_module", level="Info")
-
-logger.Info("yada yada!!")
+print(test("5.0"), type(test(5.0)))
