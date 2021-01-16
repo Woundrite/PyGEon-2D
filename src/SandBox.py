@@ -1,4 +1,3 @@
 from Engine import Engine
 
-App = Engine()
-App.Run(title="color", size=[800, 600])
+App = Engine(title="color", size=[1080, 720])

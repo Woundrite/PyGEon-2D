@@ -1,3 +1,5 @@
+import glfw
+
 class MouseEventObserver():
     def __init__(self):
         self.IsMouseButtonDown = False
@@ -19,6 +21,26 @@ class MouseEventObserver():
             self.MouseScrollDownEvent()
         elif Message == "MouseButtonUp":
             self.MouseButtonUpEvent()
+
+    def MouseButtonEvent(self, Window, button, action, modes):
+        if action == glfw.PRESS:
+            self.MouseButtonDownEvent()
+            print(action)
+        elif action == glfw.RELEASE:
+            self.MouseButtonUpEvent()
+            print(action)
+        else:
+            print(action)
+
+    def MouseMoveEvent(self, Window, MouseX, MouseY):
+        self.X = MouseX
+        self.Y = MouseY
+
+    def MouseScrollEvent(self, Window, XOffset, YOffset):
+        if YOffset < 0:
+            self.ScrollDownEvent()
+        elif YOffset > 0:
+            self.ScrollUpEvent()
 
     def MouseButtonPressedEvent(self):
         pass
@@ -45,8 +67,12 @@ class MouseEventObserver():
 
 class WindowEventObserver():
     def __init__(self):
-        self.DidWindowClose = False
         self.WindowCloseCallback=None
+        self.IsWindowResized = False
+        self.IsWindowMaximized = False
+        self.IsWindowFocused = False
+        self.IsWindowCreated = False
+
     def update(self, Message):
         if Message == None or Message == "None":
             pass
@@ -59,23 +85,29 @@ class WindowEventObserver():
         elif Message == "WindowResize":
             self.WindowResizeEvent()
 
-    def WindowResizeEvent(self):
-        pass
-
-    def WindowFocusedEvent(self):
-        pass
+    def WindowFocusedEvent(self, Window, Code):
+        self.IsWindowFocused = True
     
     def WindowUnfocusedEvent(self):
         pass
     
-    def WindowCloseEvent(self, window):
-        pass
+    def WindowCloseEvent(self, Window):
+        if self.WindowCloseEvent!=None:
+            if callable(self.WindowCloseCallback):
+                self.WindowCloseCallback()
 
-    def WindowResizeEvent(self):
-        pass
+    def WindowResizeEvent(self, Window, Width, Height):
+        self.IsWindowResized = True
+    
+    def WindowMaximizeEvent(self, window, Size):
+        self.IsWindowMaximized = True
 
     def Reset(self):
-        self.DidWindowClose = False
+        self.IsWindowResized = False
+        self.IsWindowMaximized = False
+        self.IsWindowFocused = False
+        self.IsWindowCreated = False
+
 
 class KeyboardEventObserver():
     def __init__(self):
@@ -94,6 +126,16 @@ class KeyboardEventObserver():
             self.KeyUpEvent()
         elif Message == "KeyDown":
             self.KeyDownEvent()
+
+    def KeyEvent(self, Window, KeyID, ScanCode, ActionType, Mods):
+        if ActionType == glfw.PRESS:
+            self.KeyDownEvent()
+        elif ActionType == glfw.RELEASE:
+            self.KeyUpEvent()
+        elif ActionType == glfw.REPEAT:
+            self.KeyPressedEvent()
+        else:
+            self.OtherKeyEvent()
 
     def KeyUpEvent(self):
         pass

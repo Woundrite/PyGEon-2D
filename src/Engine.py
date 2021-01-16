@@ -7,8 +7,8 @@ from Logger import Logger
 from Window import Window
 
 class Engine:
-    def __init__(self, file = None):
-        self.EndLoopRunTime=5
+    def __init__(self, **kwargs):
+        self.file = kwargs.get("file")
         self.DisplaySize = None
         self.WindowDisplayName = None
         self.Events = EventSystem()
@@ -20,7 +20,7 @@ class Engine:
         self.Events.Register(EventType="KeyboardEvent", Event=self.KeyboardEventsObserver)
         self.Events.Register(EventType="EmptyEvent", Event=self.EmptyEventsObserver)
         self.Events.Register(EventType="WindowEvent", Event=self.WindowEventsObserver)
-        if file != None:
+        if self.file != None:
             self.Logger = Logger(file.split("\\")[-1])
         else:
             self.Logger = Logger(__file__.split("\\")[-1])
@@ -52,38 +52,36 @@ class Engine:
         self.BackReset = "\033[49m"
 
         self.IsGLFW = False
+        self.x,self.y=-100,-100
 
         if not glfw.init():
             return
         else:
             self.IsGLFW=True
 
-        self.Window = Window(self.Events)
-
-
-    def Run(self, **kwargs):
+        self.Window = Window(self.Events, self.Logger)
         self.Window.Create(title=kwargs.get("title"), size=kwargs.get("size"))
+        self.Run()
+
+
+
+    def Run(self):
+        self.Logger.Log("info", "Starting run loop")
         # Loop until the user closes the window
         self.ShouldWindowClose = self.Window.window_should_close()
-        while (not self.ShouldWindowClose or self.EndLoopRunTime==0):
+        while not self.ShouldWindowClose:
             self.Events.Reset()
             self.Events.CheckForEvents()
             #"""
             # Render here, e.g. using pyOpenGL
+            self.Window.AddTriangleShape(self.x, self.y)
 
             # Swap front and back buffers
             self.Window.swap_buffers()
 
-            if self.Events.IsWindowClosed():
-                print("Hii")
-
             # Poll for and process events
             self.Window.poll_events()
             self.ShouldWindowClose = self.Window.window_should_close()
-            if self.ShouldWindowClose == False:
-                if self.Events.IsWindowClosed():
-                    print("Hii")
-                self.EndLoopRunTime -= 1
             #"""
         self.Terminate()
 

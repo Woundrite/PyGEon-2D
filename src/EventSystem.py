@@ -16,10 +16,6 @@ class EventSystem():
     def Unregister(self, who):
         self.Observer.remove(who)
     
-    def Send(self, **kwargs):
-        for key, value in self.SubEvent:
-            if key == kwargs.get("EventType", "EmptyEvent"):
-                value.update(kwargs.get("Event", "Empty"))
     def CheckForEvents(self):
         pass
 
@@ -185,13 +181,15 @@ class EventSystem():
                 else:
                     return str(value.MouseButtonPressed)
     #____________________________________
-    def OnWindowResize(self):
-        return "a"
     def OnWindowFocus(self):
-        return "a"
+        return self.SubEvents.get("WindowEvent").IsWindowFocused
     def OnWindowUnfocus(self):
         return "a"
     def SetWindowCloseCallback(self, func):
-        pass
+        self.SubEvents.get("WindowEvent").WindowCloseCallback = func
     def OnWindowOpen(self):
-        return "a"
+        return self.SubEvents.get("WindowEvent").IsWindowCreated
+    def onWindowResize(self):
+        return self.SubEvents.get("WindowEvent").IsWindowResized
+    def OnWindowMaximize(self):
+        return self.SubEvents.get("WindowEvent").IsWindowMaximized
