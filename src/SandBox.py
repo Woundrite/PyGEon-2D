@@ -1,3 +1,3 @@
-from Engine import Engine
+from PyGEon.Engine import Engine
 
 App = Engine(title="color", size=[1080, 720])
