@@ -9,7 +9,7 @@ this is a 2D Game Engine Python
 
 
 ### Major Functionality to be added
-1) GUI
+1) GUI - Done
 2) Scripts Support
 3) Visual Scripting
 4) Obj file support
@@ -20,8 +20,3 @@ this is a 2D Game Engine Python
 9) Lighting Engine
 10) Basic inbuilt shapes
 ####		 And More to come as we progress
-
-
-
-##### Note: 
-###### Its Sister Projects JyGEon(Java Game Engine), CyGEon(C/C++/C# Game Engine), TyGEon(Typescript Game Engine) will be also made(Transpiled) once this project has reached a good enough level. If you are good at any of these and wish to make it in parallel to the game engine, please contact me.
